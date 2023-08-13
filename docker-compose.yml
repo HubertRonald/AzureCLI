@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  azcli:
+    build:
+      context: '.'
+      dockerfile: 'Dockerfile'
+      args:
+        EXTENSIONS: "${EXTENSIONS:?error}"  # az extension list-available | jq -r '.[].name'
+    container_name: "azure_cli"
+    stdin_open: true
+    tty: true
+    volumes:
+      - "./data:/home/data"
+    env_file:
+      - .env                                # source ./.env
+    ports:
+      - 8080:8080
